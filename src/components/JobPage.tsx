@@ -89,7 +89,7 @@ const JobPage = () => {
       <div className="flex flex-col md:flex-row gap-4 mb-6">
       <div className="flex-1 bg-white border rounded-lg p-4 flex flex-col items-center text-center shadow">
         <img
-          src={`${process.env.PUBLIC_URL}/images/logo4.png`}
+          src="./images/logo4.png" 
           alt="Sponsor 1"
           className="w-80 h-32 object-contain mb-4 mt-6"
         />
@@ -99,8 +99,8 @@ const JobPage = () => {
 
         <div className="flex-1 bg-white border rounded-lg p-4 flex flex-col items-center text-center shadow">
         <img
-          src={`${process.env.PUBLIC_URL}/images/sponsor.png`}
-          alt="Sponsor 2"
+          src="./images/sponsor.png" 
+          alt="Sponsor 1"
           className="w-100 h-50 object-contain"
         />
         <p className="text-gray-700 font-medium">Sponsored by Local Businesses</p>
