@@ -8,9 +8,10 @@ import cors from "cors";
 const app = express();
 app.use(cors({
   origin: [
-    "http://localhost:5173", 
-    "https://github.com/jredding43/Community-Board" 
-  ]
+    "http://localhost:5173",
+    "https://jredding43.github.io",
+  ],
+  credentials: true
 }));
 
 app.use(express.json());
