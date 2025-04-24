@@ -6,7 +6,13 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 
 const app = express();
-app.use(cors({ origin: "http://localhost:5173" }));
+app.use(cors({
+  origin: [
+    "http://localhost:5173", 
+    "https://github.com/jredding43/Community-Board" 
+  ]
+}));
+
 app.use(express.json());
 
 app.get("/", (_req: Request, res: Response) => {
@@ -274,5 +280,5 @@ app.post("/jobs/search-by-passphrase", async (req, res) => {
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on port: ${PORT}`);
 });

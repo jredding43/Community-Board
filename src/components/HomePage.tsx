@@ -21,7 +21,7 @@ const HomePage = ({ setActivePage }: HomePageProps) => {
   //recentJobs / loading
 
   useEffect(() => {
-    fetch("http://localhost:3001/jobs")
+    fetch("https://community-board-backend.onrender.com/jobs")
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {

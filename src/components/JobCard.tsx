@@ -25,7 +25,7 @@ const JobCard = ({
   const [hasReported, setHasReported] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:3001/jobs/has-been-reported", {
+    fetch("https://community-board-backend.onrender.com/jobs/has-been-reported", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ title, contact }),
@@ -44,7 +44,7 @@ const JobCard = ({
 
   const submitReport = async (reason: string) => {
     try {
-      const res = await fetch("http://localhost:3001/jobs/report", {
+      const res = await fetch("https://community-board-backend.onrender.com/jobs/report", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title, contact, reason }),
@@ -73,7 +73,7 @@ const JobCard = ({
     }
 
     try {
-      const res = await fetch("http://localhost:3001/jobs/delete", {
+      const res = await fetch("https://community-board-backend.onrender.com/jobs/delete", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title, contact, deletePassPhrase: passphrase }),

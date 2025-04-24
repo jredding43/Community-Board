@@ -25,7 +25,7 @@ const JobPage = () => {
     const loadJobs = async () => {
       setLoading(true);
       try {
-        const res = await fetch("http://localhost:3001/jobs?limit=1000&offset=0");
+        const res = await fetch("https://community-board-backend.onrender.com/jobs?limit=1000&offset=0");
         const data: Job[] = await res.json();
         setAllJobs(data);
         setFilteredJobs(data); // show all by default

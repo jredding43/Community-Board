@@ -29,7 +29,7 @@ const AdminPage = () => {
 
   useEffect(() => {
     if (user) {
-      fetch("http://localhost:3001/reports")
+      fetch("https://community-board-backend.onrender.com/reports")
         .then((res) => res.json())
         .then((data) => setReports(data))
         .catch((err) => console.error("Failed to fetch reports:", err));
@@ -49,7 +49,7 @@ const AdminPage = () => {
   };
 
   const handleRemoveReport = async (report: Report) => {
-    const res = await fetch("http://localhost:3001/reports", {
+    const res = await fetch("https://community-board-backend.onrender.com/reports", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -71,7 +71,7 @@ const AdminPage = () => {
     );
     if (!confirm) return;
 
-    const res = await fetch("http://localhost:3001/jobs/admin-delete", {
+    const res = await fetch("https://community-board-backend.onrender.com/jobs/admin-delete", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

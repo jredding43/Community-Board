@@ -51,7 +51,7 @@ const CreateJob = () => {
     const fullPay = `${form.payAmount} (${form.payType})`;
 
     try {
-      const res = await fetch("http://localhost:3001/jobs", {
+      const res = await fetch("https://community-board-backend.onrender.com/jobs", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -92,7 +92,7 @@ const CreateJob = () => {
   };
 
   const handleSearch = async () => {
-    const res = await fetch("http://localhost:3001/jobs/search-by-passphrase", {
+    const res = await fetch("https://community-board-backend.onrender.com/jobs/search-by-passphrase", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -109,7 +109,7 @@ const CreateJob = () => {
   };
 
   const handleDelete = async (title: string) => {
-    const res = await fetch("http://localhost:3001/jobs/delete", {
+    const res = await fetch("https://community-board-backend.onrender.com/jobs/delete", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
