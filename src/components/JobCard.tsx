@@ -129,12 +129,12 @@ const JobCard = ({
           </button>
         )}
 
-          {/* <button
+          <button
             onClick={handleRemove}
             className="text-xs text-gray-500 hover:underline hover:text-gray-700"
           >
             ❌ Remove Post
-          </button> */}
+          </button>
         </div>
 
         {/* Report Options Dropdown */}
