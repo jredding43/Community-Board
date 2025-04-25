@@ -72,7 +72,6 @@ app.get("/jobs", async (req: Request, res: Response) => {
   }
 });
 
-
 // --- POST /jobs with spam prevention and validation ---
 app.post("/jobs", async (req: Request, res: Response) => {
   const {
@@ -99,12 +98,39 @@ app.post("/jobs", async (req: Request, res: Response) => {
   }
 
   try {
+    // Normalize contact (removes dashes, dots, spaces, upper case)
+    const normalizeContact = (value: string) => {
+      return value.trim().replace(/[^a-zA-Z0-9@]/g, "").toLowerCase();
+    };
+    
+    const normalizedContact = normalizeContact(contact);
+    
+    console.log("Raw contact submitted:", contact);
+    console.log("Normalized contact:", normalizedContact);
+
+    //  100% accurate match — no SQL replace
+    const check = await pool.query(
+      `SELECT COUNT(*) FROM jobs WHERE REGEXP_REPLACE(LOWER(contact), '[^a-z0-9@]', '', 'g') = $1`,
+      [normalizedContact]
+    );
+    
+    const count = parseInt(check.rows[0].count, 10);
+    console.log(`Contact check for: ${normalizedContact} → Found ${count} posts`);
+    
+    if (count >= 2) {
+      return res.status(429).json({ error: "You’ve reached the limit of 2 job posts for this contact." });
+    }
+    
+    //  Insert with normalized contact
     const result = await pool.query(
       `INSERT INTO jobs (title, description, pay, location, date_needed, contact, ip_address, delete_passphrase)
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
        RETURNING *`,
-      [title, description, pay, location, dateNeeded, contact, ip, deletePassPhrase]
+      [title, description, pay, location, dateNeeded, normalizedContact, ip, deletePassPhrase]
     );
+    
+    console.log("Matching post count:", count);
+
 
     res.status(201).json(result.rows[0]);
   } catch (error) {
@@ -112,6 +138,7 @@ app.post("/jobs", async (req: Request, res: Response) => {
     res.status(500).json({ error: "Failed to create job post" });
   }
 });
+
 
 // --- POST /jobs/delete using title + contact + passphrase ---
 app.post("/jobs/delete", async (req, res) => {

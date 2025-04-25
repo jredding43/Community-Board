@@ -83,13 +83,19 @@ const CreateJob = () => {
         setSuccess("Job posted successfully!");
       } else {
         const { error } = await res.json();
-        setError(error || "Failed to post job.");
+
+        if (res.status === 429) {
+          setError("You've already posted 2 jobs with this contact. You cannot post more.");
+        } else {
+          setError(error || "Failed to post job.");
+        }
       }
     } catch (err) {
       console.error(err);
       setError("Server error. Try again later.");
     }
   };
+      
 
   const handleSearch = async () => {
     const res = await fetch("https://community-board-backend.onrender.com/jobs/search-by-passphrase", {
