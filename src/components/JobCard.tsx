@@ -10,6 +10,7 @@ interface JobCardProps {
   postedAt: string;
   hasReported?: boolean;
   onRemove?: () => void;
+  pinned?: boolean;
 }
 
 const JobCard = ({
@@ -20,6 +21,7 @@ const JobCard = ({
   contact,
   dateNeeded,
   onRemove,
+  pinned,
 }: JobCardProps) => {
   const [showReportOptions, setShowReportOptions] = useState(false);
   const [hasReported, setHasReported] = useState(false);
@@ -39,6 +41,10 @@ const JobCard = ({
   
 
   const handleReport = () => {
+    if (pinned) {
+      alert("This post cannot be reported.");
+      return;
+    }
     setShowReportOptions((prev) => !prev);
   };
 
@@ -96,6 +102,12 @@ const JobCard = ({
   return (
     <div className="w-full bg-white shadow rounded-lg p-4 mb-4 border relative">
 
+      {pinned && (
+        <div className="absolute top-2 right-2 bg-yellow-100 text-yellow-800 text-xs font-semibold px-2 py-1 rounded">
+           Admin Post
+        </div>
+      )}
+
       {hasReported && (
         <div className="mb-3 px-3 py-2 bg-yellow-100 border-l-4 border-yellow-600 text-yellow-800 text-sm font-medium rounded">
           ⚠️ This post has been reported. Use caution until reviewed.
@@ -107,7 +119,7 @@ const JobCard = ({
       </div>
       <p className="text-gray-700 mb-2">{description}</p>
       <div className="text-sm text-gray-600 mb-2">
-        <p><strong>Pay:</strong> ${pay}</p>
+        <p><strong>Pay:</strong> {pay.startsWith("$") || isNaN(Number(pay)) ? pay : `$${pay}`}</p>
         <p><strong>Location:</strong> {location}</p>
         <p><strong>Date Needed:</strong> {dateNeeded}</p>
         <p><strong>Contact:</strong> {contact}</p>
@@ -116,18 +128,20 @@ const JobCard = ({
       <div className="flex flex-col items-end gap-2">
         <div className="flex gap-4">
 
-        {hasReported ? (
-          <span className="text-xs text-gray-400 italic select-none cursor-not-allowed">
-            🕓 Report Pending
-          </span>
-        ) : (
-          <button
-            onClick={handleReport}
-            className="text-xs text-red-600 hover:underline hover:text-red-800"
-          >
-            🚩 Report Post
-          </button>
-        )}
+        {!pinned && (
+            hasReported ? (
+              <span className="text-xs text-gray-400 italic select-none cursor-not-allowed">
+                🕓 Report Pending
+              </span>
+            ) : (
+              <button
+                onClick={handleReport}
+                className="text-xs text-red-600 hover:underline hover:text-red-800"
+              >
+                🚩 Report Post
+              </button>
+            )
+          )}
 
           <button
             onClick={handleRemove}
