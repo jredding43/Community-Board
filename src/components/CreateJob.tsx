@@ -201,15 +201,24 @@ const CreateJob = () => {
           <option value="Chewelah">Chewelah</option>
         </select>
 
-        {/* Date Needed */}
-        <input
-          type="date"
-          name="dateNeeded"
-          value={form.dateNeeded}
-          onChange={handleChange}
-          className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-300"
-          required
-        />
+       {/* Date Needed */}
+        <div className="relative">
+          <input
+            type="text"
+            name="dateNeeded"
+            placeholder="Date"
+            value={form.dateNeeded}
+            onFocus={(e) => (e.target.type = "date")}
+            onBlur={(e) => {
+              if (!e.target.value) {
+                e.target.type = "text";
+              }
+            }}
+            onChange={handleChange}
+            className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-300"
+            required
+          />
+        </div>
 
         {/* Contact Info */}
         <div className="flex flex-col md:flex-row gap-4">
