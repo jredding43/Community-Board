@@ -40,9 +40,8 @@ const Header = ({ setActivePage }: HeaderProps) => {
           <img
             src="./images/logo.png"
             alt="Community Board Logo"
-            className="h-10 w-auto"
+            className="h-15 w-auto"
           />
-          <span>Community Board</span>
         </button>
 
         {/* Desktop Nav */}

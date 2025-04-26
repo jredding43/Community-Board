@@ -134,29 +134,35 @@ const CreateJob = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto bg-white p-6 rounded-lg shadow border">
-      <h2 className="text-2xl font-bold text-indigo-700 mb-4">Post a Local Job</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-md border">
+      <h2 className="text-3xl font-bold text-indigo-700 mb-6 text-center">Post a Local Job</h2>
+
+      <form onSubmit={handleSubmit} className="space-y-6">
+
+        {/* Job Title */}
         <input
           type="text"
           name="title"
           placeholder="Job Title"
           value={form.title}
           onChange={handleChange}
-          className="w-full p-2 border rounded"
+          className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-300"
           required
         />
+
+        {/* Job Description */}
         <textarea
           name="description"
           placeholder="Job Description"
           value={form.description}
           onChange={handleChange}
-          className="w-full p-2 border rounded"
+          className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-300"
           rows={4}
           required
         />
 
-        <div className="flex gap-4">
+        {/* Pay Section */}
+        <div className="flex flex-col md:flex-row gap-4">
           {form.payType !== "Donation" && form.payType !== "Community Service" && (
             <input
               type="text"
@@ -164,14 +170,14 @@ const CreateJob = () => {
               placeholder="Pay Amount (e.g., 20)"
               value={form.payAmount}
               onChange={handleChange}
-              className="w-2/3 p-2 border rounded"
+              className="flex-1 p-3 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-300"
             />
           )}
           <select
             name="payType"
             value={form.payType}
             onChange={handleChange}
-            className={form.payType === "Donation" || form.payType === "Community Service" ? "w-full p-2 border rounded" : "w-1/3 p-2 border rounded"}
+            className="flex-1 p-3 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-300"
           >
             <option value="Hourly">Hourly</option>
             <option value="Total">Total</option>
@@ -180,11 +186,12 @@ const CreateJob = () => {
           </select>
         </div>
 
+        {/* Location */}
         <select
           name="location"
           value={form.location}
           onChange={handleChange}
-          className="w-full p-2 border rounded"
+          className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-300"
           required
         >
           <option value="">Select a Location</option>
@@ -194,21 +201,23 @@ const CreateJob = () => {
           <option value="Chewelah">Chewelah</option>
         </select>
 
+        {/* Date Needed */}
         <input
           type="date"
           name="dateNeeded"
           value={form.dateNeeded}
           onChange={handleChange}
-          className="w-full p-2 border rounded"
+          className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-300"
           required
         />
 
-        <div className="flex gap-4">
+        {/* Contact Info */}
+        <div className="flex flex-col md:flex-row gap-4">
           <select
             name="contactType"
             value={form.contactType}
             onChange={handleChange}
-            className="w-1/3 p-2 border rounded"
+            className="flex-1 p-3 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-300"
           >
             <option value="phone">Phone</option>
             <option value="email">Email</option>
@@ -219,31 +228,38 @@ const CreateJob = () => {
             placeholder={form.contactType === "email" ? "you@example.com" : "e.g., 509-555-1234"}
             value={form.contact}
             onChange={handleChange}
-            className="w-2/3 p-2 border rounded"
+            className="flex-1 p-3 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-300"
             required
           />
         </div>
 
+        {/* Delete Passphrase */}
         <textarea
           name="deletePassPhrase"
-          placeholder="Unique one-word passphrase"
+          placeholder="Unique passphrase (one word)"
           value={form.deletePassPhrase}
           onChange={handleChange}
-          className="w-full p-2 border rounded"
+          className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-300"
           rows={2}
           required
         />
-        <h3 className="text-red-500 italic -mt-6">Write down or remember passphrase.  It will not be available again.</h3>
+        <p className="text-xs text-red-500 -mt-4 mb-2 italic">Write this down — it will not be shown again.</p>
 
+        {/* Error & Success Messages */}
         {error && <p className="text-red-600 text-sm">{error}</p>}
         {success && <p className="text-green-600 text-sm">{success}</p>}
 
-        <button type="submit" className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">
+        {/* Submit Button */}
+        <button
+          type="submit"
+          className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded transition"
+        >
           Submit Job
         </button>
 
+        {/* Honeypot Field */}
         <div className="hidden">
-          <label htmlFor="website">Leave this field blank</label>
+          <label htmlFor="website">Leave this blank</label>
           <input
             type="text"
             name="website"
@@ -255,63 +271,62 @@ const CreateJob = () => {
         </div>
       </form>
 
-      <hr className="my-6 border-t border-gray-300" />
+      {/* Divider */}
+      <hr className="my-10 border-t-2 border-gray-300" />
 
-      <div className="mb-4 p-4 border-l-4 border-yellow-400 bg-yellow-50 text-sm text-gray-700 rounded">
-        <p className="mb-1 font-semibold">Job posts automatically expire after 2 weeks.</p>
-        <p>
-          If your job has already been fulfilled and you don't want to receive more messages,
-          you can remove your post early using the form below.
+      {/* Search and Delete Section */}
+      <div className="bg-yellow-50 p-6 rounded-lg border-l-4 border-yellow-400 mb-6">
+        <h3 className="text-lg font-bold text-yellow-800 mb-2">Manage Your Posts</h3>
+        <p className="text-sm text-gray-700 mb-4">
+          Posts expire after 2 weeks automatically. If you want to remove your post early, you can find and delete it using your contact and passphrase.
         </p>
-      </div>
 
-      <h3 className="text-lg font-semibold text-indigo-700 mb-2">Find & Remove Your Posts</h3>
-      <div className="space-y-3 mb-4">
-        <input
-          type="text"
-          placeholder="Contact (email or phone)"
-          value={form.contact}
-          onChange={handleChange}
-          name="contact"
-          className="w-full p-2 border rounded"
-        />
-        <input
-          type="text"
-          placeholder="Passphrase"
-          value={form.deletePassPhrase}
-          onChange={handleChange}
-          name="deletePassPhrase"
-          className="w-full p-2 border rounded"
-        />
-        <button
-          type="button"
-          onClick={handleSearch}
-          className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
-        >
-          Search Posts
-        </button>
-      </div>
+        <div className="space-y-4">
+          <input
+            type="text"
+            placeholder="Contact (email or phone)"
+            value={form.contact}
+            onChange={handleChange}
+            name="contact"
+            className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-yellow-300"
+          />
+          <input
+            type="text"
+            placeholder="Passphrase"
+            value={form.deletePassPhrase}
+            onChange={handleChange}
+            name="deletePassPhrase"
+            className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-yellow-300"
+          />
+          <button
+            type="button"
+            onClick={handleSearch}
+            className="w-full bg-yellow-400 hover:bg-yellow-500 text-white font-semibold py-3 rounded transition"
+          >
+            Search My Posts
+          </button>
+        </div>
 
-      {searchResults.length > 0 && (
-        <div className="mt-4">
-          <h4 className="text-md font-semibold text-gray-700 mb-2">Matching Posts</h4>
-          <ul className="space-y-3">
+        {/* Search Results */}
+        {searchResults.length > 0 && (
+          <div className="mt-6 space-y-4">
             {searchResults.map((post, idx) => (
-              <li key={idx} className="border p-3 rounded text-sm bg-gray-50">
-                <p><strong>{post.title}</strong></p>
-                <p>{post.description}</p>
+              <div key={idx} className="border p-4 rounded-lg bg-white shadow-sm">
+                <p className="font-bold text-indigo-700">{post.title}</p>
+                <p className="text-gray-600">{post.description}</p>
                 <button
                   onClick={() => handleDelete(post.title)}
-                  className="mt-2 bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 text-xs"
+                  className="mt-3 bg-red-600 hover:bg-red-700 text-white text-xs font-semibold px-4 py-2 rounded"
                 >
-                  ❌ Delete This Post
+                  ❌ Delete Post
                 </button>
-              </li>
+              </div>
             ))}
-          </ul>
-        </div>
-      )}
+          </div>
+        )}
+      </div>
     </div>
+
   );
 };
 
