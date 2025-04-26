@@ -9,7 +9,7 @@ const EventsPage = () => {
   const [isTermsOpen, setIsTermsOpen] = useState(false);
 
   return (
-    <div className="max-w-5xl mx-auto p-8 bg-white rounded-lg shadow-md border text-gray-800">
+    <div className="max-w-5xl mx-auto p-8 bg-indigo-50 rounded-lg shadow-md border text-gray-800">
       <h1 className="text-4xl font-bold text-indigo-700 mb-6 text-center">
         Local Events & Promotions
       </h1>

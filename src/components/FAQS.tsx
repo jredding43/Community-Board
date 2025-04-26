@@ -37,7 +37,7 @@ const FAQs = () => {
   ];
 
   return (
-    <section className="mt-12 bg-gray-50 p-8 rounded-lg shadow-md border">
+    <section className="mt-12 bg-indigo-50 p-8 rounded-lg shadow-md border">
       <h2 className="text-2xl font-semibold text-indigo-700 mb-6 text-center">Frequently Asked Questions</h2>
 
       <div className="space-y-4 text-gray-700 text-sm">

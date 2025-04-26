@@ -134,7 +134,7 @@ const CreateJob = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-md border">
+    <div className="max-w-2xl mx-auto bg-indigo-50 p-8 rounded-lg shadow-md border">
       <h2 className="text-3xl font-bold text-indigo-700 mb-6 text-center">Post a Local Job</h2>
 
       <form onSubmit={handleSubmit} className="space-y-6">

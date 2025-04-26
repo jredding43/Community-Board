@@ -5,7 +5,7 @@ const Footer = () => {
   const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
 
   return (
-    <footer className="bg-white border-t mt-8 py-6 text-center text-xs text-gray-500">
+    <footer className="bg-indigo-50 border-t mt-8 py-6 text-center text-xs text-gray-500">
       <p className="space-x-2">
         <span>&copy; {new Date().getFullYear()} Community Board.</span>
         <span>Built for local use. Your privacy is respected.</span>

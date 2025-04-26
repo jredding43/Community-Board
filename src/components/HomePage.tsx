@@ -41,29 +41,30 @@ const HomePage = ({ setActivePage }: HomePageProps) => {
   return (
     <div className="max-w-4xl mx-auto">
       {/* Hero Section */}
-      <section className="mb-8 bg-white p-8 rounded-lg shadow-md border text-center">
-        <h1 className="text-4xl font-bold text-indigo-800 mb-4">
+      <section className="mb-8 bg-indigo-50 p-10 rounded-lg shadow-md border text-center">
+        <h1 className="text-4xl font-bold text-indigo-800 mb-2">
           Welcome to Community Board
         </h1>
-        <p className="text-gray-700 text-lg mb-6">
-          A simple, way to post local jobs, find community help, and share upcoming events — no accounts, no recruiters, no hassle.
+        <p className="text-gray-700 text-lg mb-6 max-w-2xl mx-auto">
+          Connecting neighbors, sharing opportunities — no accounts, no recruiters, just community.
         </p>
-        <div className="flex flex-col sm:flex-row justify-center gap-6">
+
+        <div className="flex flex-col sm:flex-row justify-center gap-4">
           <button
             onClick={() => setActivePage("createjob")}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded shadow"
+            className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded shadow-md"
           >
             Post a Job
           </button>
           <button
             onClick={() => setActivePage("jobpage")}
-            className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold px-6 py-3 rounded shadow"
+            className="bg-white hover:bg-gray-100 text-indigo-700 font-semibold border border-indigo-300 px-6 py-3 rounded shadow-sm"
           >
             Browse Jobs
           </button>
           <button
             onClick={() => setActivePage("events")}
-            className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold px-6 py-3 rounded shadow"
+            className="bg-white hover:bg-gray-100 text-indigo-700 font-semibold border border-indigo-300 px-6 py-3 rounded shadow-sm"
           >
             Browse Events
           </button>
@@ -76,7 +77,7 @@ const HomePage = ({ setActivePage }: HomePageProps) => {
 
 
       {/* How it Works */}
-      <section className="mb-8 bg-white p-8 rounded-lg shadow-md border">
+      <section className="mb-8 bg-indigo-50 p-8 rounded-lg shadow-md border">
         <h2 className="text-2xl font-semibold text-indigo-700 mb-4">How This Site Works</h2>
 
         <ul className="list-disc list-inside text-gray-700 space-y-3">
@@ -99,7 +100,7 @@ const HomePage = ({ setActivePage }: HomePageProps) => {
       </section>
 
       {/* Sponsors */}
-      <section className="mb-8 bg-white p-8 rounded-lg shadow-md border">
+      <section className="mb-8 bg-indigo-50 p-8 rounded-lg shadow-md border">
         <h2 className="text-2xl font-semibold text-indigo-700 mb-4">Sponsors & Community Support</h2>
         <p className="text-gray-700">
           Community Board is free to use thanks to local sponsor support. Sponsors are carefully selected to align with our mission: local, honest, and community-driven.
@@ -108,7 +109,7 @@ const HomePage = ({ setActivePage }: HomePageProps) => {
       </section>
 
       {/* What's Coming Soon */}
-      <section className="mb-8 bg-white p-8 rounded-lg shadow-md border">
+      <section className="mb-8 bg-indigo-50 p-8 rounded-lg shadow-md border">
         <h2 className="text-2xl font-semibold text-indigo-700 mb-4">Coming Soon</h2>
         <ul className="list-disc list-inside text-gray-700 space-y-3">
           <li><strong>New Event Promotion Tools</strong> — Small businesses will soon promote local sales and events more easily</li>

@@ -32,7 +32,7 @@ const CommunityFormModal: FC<CommunityFormModalProps> = ({ isOpen, onClose }) =>
           </p>
         </div>
 
-        <form action="https://formspree.io/f/yourformid" method="POST" className="space-y-4">
+        <form action="https://formspree.io/f/xeogolbj" method="POST" className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700">Community Event Name</label>
             <input

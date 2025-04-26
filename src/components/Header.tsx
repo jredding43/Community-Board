@@ -29,7 +29,7 @@ const Header = ({ setActivePage }: HeaderProps) => {
   };
 
   return (
-    <header className="bg-white shadow-md">
+    <header className="bg-indigo-50 shadow-md">
       <div className="max-w-screen-xl mx-auto px-4 py-3 flex justify-between items-center">
         
         {/* Logo + Text */}

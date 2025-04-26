@@ -1,6 +1,6 @@
 const AboutPage = () => {
   return (
-    <div className="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md border text-gray-800">
+    <div className="max-w-3xl mx-auto bg-indigo-50 p-6 rounded-lg shadow-md border text-gray-800">
       <h1 className="text-3xl font-bold text-indigo-700 mb-4">About This Site</h1>
       <p className="mb-4">
         This platform was created for people in our communities who need an extra hand — and for those looking to earn extra income by helping out locally.
