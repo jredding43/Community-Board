@@ -79,7 +79,7 @@ const HomePage = ({ setActivePage }: HomePageProps) => {
           <hr className="my-6 border-t border-black" />
           <li className="text-red-600 font-semibold">Posts are automatically removed 2 weeks after posting to keep things fresh</li>
           <li className="text-red-600 font-semibold">Comments are disabled — only those truly interested will reach out via the contact info you provide</li>
-          <li className="text-red-600 font-semibold">You can post up to 2 jobs per week to reduce spam and keep it fair for everyone</li>
+          {/* <li className="text-red-600 font-semibold">You can post up to 2 jobs per week to reduce spam and keep it fair for everyone</li> */}
           <li className="text-red-600 font-semibold">Only jobs in Republic, Kettle Falls, Colville, Chewelah, and surrounding areas are allowed. Others will be removed</li>
           <li className="text-red-600 font-semibold">Reported posts will display a warning banner for all users to proceed with caution until reviewed or removed</li>
         </ul>
