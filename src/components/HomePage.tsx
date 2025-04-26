@@ -46,7 +46,7 @@ const HomePage = ({ setActivePage }: HomePageProps) => {
           Welcome to Community Board
         </h1>
         <p className="text-gray-700 text-lg mb-6">
-          A simple, free way to post local jobs, find community help, and share upcoming events — no accounts, no recruiters, no hassle.
+          A simple, way to post local jobs, find community help, and share upcoming events — no accounts, no recruiters, no hassle.
         </p>
         <div className="flex flex-col sm:flex-row justify-center gap-6">
           <button

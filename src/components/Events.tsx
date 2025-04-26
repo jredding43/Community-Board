@@ -8,54 +8,55 @@ const EventsPage = () => {
   const [isCommunityFormOpen, setIsCommunityFormOpen] = useState(false);
   const [isTermsOpen, setIsTermsOpen] = useState(false);
 
-
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md border text-gray-800">
-      <h1 className="text-3xl font-bold text-indigo-700 mb-4">Local Events & Promotions</h1>
-      <p className="mb-6 text-gray-700">
-        This space is reserved for community happenings and business promotions. Whether you're running a local sale, organizing a fundraiser,
-        or hosting a community event — this is where people in the area come to find out what's going on.
+    <div className="max-w-5xl mx-auto p-8 bg-white rounded-lg shadow-md border text-gray-800">
+      <h1 className="text-4xl font-bold text-indigo-700 mb-6 text-center">
+        Local Events & Promotions
+      </h1>
+      <p className="text-lg text-gray-700 mb-10 text-center">
+        Share your local events, business promotions, fundraisers, workshops, and community happenings. 
+        Whether you're hosting or helping — this is where your community connects.
       </p>
 
       {/* Sponsored Events Section */}
-      <section className="mb-10">
+      <section className="mb-12">
         <h2 className="text-2xl font-semibold text-indigo-600 mb-6">Sponsored Events & Announcements</h2>
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 gap-8">
           {/* Sponsored Event Image Card */}
-          <div className="border rounded-lg overflow-hidden shadow-sm bg-gray-50 flex items-center justify-center h-64">
+          <div className="border rounded-lg overflow-hidden shadow-md bg-gray-100 flex items-center justify-center h-64">
             <img
               src="./images/promotion.png" 
               alt="Sponsored Event 1"
-              className="object-cover w-full h-full"
+              className="object-cover w-96 h-auto"
             />
           </div>
         </div>
       </section>
 
       {/* Free Community Listings Section */}
-      <section className="mb-10">
-        <h2 className="text-2xl font-semibold text-indigo-600 mb-3">Free Community Listings</h2>
-        <p className="text-sm text-gray-600 mb-2">
-          These are non-paid listings shared by local residents or organizations. Have something to share? Reach out!
+      <section className="mb-12">
+        <h2 className="text-2xl font-semibold text-indigo-600 mb-4">Free Community Listings</h2>
+        <p className="text-gray-700 mb-4">
+          These are free, non-paid listings shared by local residents, nonprofits, and community groups.
         </p>
-        <ul className="list-disc list-inside text-gray-700 space-y-2">
-          <li>
-            <strong>Community Spotlight</strong> — Share exciting events, announcements, or opportunities happening soon right here.
-          </li>
-        </ul>
+        <div className="bg-yellow-50 p-4 border-l-4 border-yellow-400 rounded space-y-2">
+          <p className="text-sm text-gray-700">
+            <strong>Community Spotlight</strong> — Highlight free events, workshops, local gatherings, or volunteer opportunities.
+          </p>
+        </div>
       </section>
 
       {/* Promote Your Event Section */}
-      <section className="border-t pt-6 space-y-4">
-        <h2 className="text-xl font-semibold text-indigo-700">Want to Promote Your Event?</h2>
+      <section className="border-t pt-8 space-y-6">
+        <h2 className="text-2xl font-semibold text-indigo-700">Want to Promote Your Event?</h2>
         <p className="text-gray-700">
-          We offer affordable, one-time paid event slots for local businesses and organizations. Your listing will appear at the top of this page and reach a
-          hyper-local audience looking for things to do and businesses to support.
+          We offer affordable, one-time paid event slots for local businesses and organizations. 
+          Sponsored listings appear at the top of this page and reach a hyper-local audience looking for events and services to support.
         </p>
 
-        
-        <p className="text-xs text-gray-500 mt-8">
-          By submitting an event, you agree to our 
+        {/* Terms Notice */}
+        <p className="text-xs text-gray-500">
+          By submitting an event, you agree to our{" "}
           <button
             onClick={() => setIsTermsOpen(true)}
             className="text-indigo-600 hover:underline ml-1"
@@ -64,19 +65,18 @@ const EventsPage = () => {
           </button>.
         </p>
 
-
         {/* Buttons */}
-        <div className="space-x-4">
+        <div className="flex flex-col sm:flex-row gap-4 pt-4">
           <button
             onClick={() => setIsEventFormOpen(true)}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-4 py-2 rounded"
+            className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded w-full sm:w-auto"
           >
             Submit a Sponsored Event
           </button>
 
           <button
             onClick={() => setIsCommunityFormOpen(true)}
-            className="bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded"
+            className="bg-green-600 hover:bg-green-700 text-white font-semibold px-6 py-3 rounded w-full sm:w-auto"
           >
             Submit a Free Community Listing
           </button>
