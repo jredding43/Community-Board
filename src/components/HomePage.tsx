@@ -40,97 +40,93 @@ const HomePage = ({ setActivePage }: HomePageProps) => {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <section className="mb-8 bg-white p-6 rounded-lg shadow-md border">
-        <h1 className="text-4xl font-bold text-indigo-800 mb-4 text-center">
-          Welcome to the Local Community Board
+      {/* Hero Section */}
+      <section className="mb-8 bg-white p-8 rounded-lg shadow-md border text-center">
+        <h1 className="text-4xl font-bold text-indigo-800 mb-4">
+          Welcome to Community Board
         </h1>
-        <p className="text-gray-700 text-lg mb-4 text-center">
-          A simple, no-hassle way to post local job needs, community help, or one-time tasks — no big companies, no recruiters, just neighbors helping neighbors.
+        <p className="text-gray-700 text-lg mb-6">
+          A simple, free way to post local jobs, find community help, and share upcoming events — no accounts, no recruiters, no hassle.
         </p>
-        <div className="flex flex-col sm:flex-row justify-center gap-4">
+        <div className="flex flex-col sm:flex-row justify-center gap-6">
           <button
             onClick={() => setActivePage("createjob")}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded shadow"
+            className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded shadow"
           >
             Post a Job
           </button>
           <button
             onClick={() => setActivePage("jobpage")}
-            className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-2 rounded shadow"
+            className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold px-6 py-3 rounded shadow"
           >
             Browse Jobs
           </button>
           <button
             onClick={() => setActivePage("events")}
-            className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-2 rounded shadow"
+            className="bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold px-6 py-3 rounded shadow"
           >
             Browse Events
           </button>
         </div>
       </section>
 
-      <section className="mb-8 bg-white p-6 rounded-lg shadow-md border">
-        <h2 className="text-2xl font-semibold text-indigo-700 mb-2">How This Site Works</h2>
-        <ul className="list-disc list-inside text-gray-700">
-          <li>Post local job needs, community tasks, or one-time gigs — no big companies or recruiters allowed</li>
-          <li>No accounts, no tracking — only share the contact info you're comfortable with</li>
+      <div className="bg-yellow-100 text-yellow-800 text-center text-sm font-medium py-2 rounded mb-4 shadow">
+         Community Board is currently in <strong>Beta Testing</strong>. We appreciate your feedback as we continue to improve!
+      </div>
+
+
+      {/* How it Works */}
+      <section className="mb-8 bg-white p-8 rounded-lg shadow-md border">
+        <h2 className="text-2xl font-semibold text-indigo-700 mb-4">How This Site Works</h2>
+
+        <ul className="list-disc list-inside text-gray-700 space-y-3">
+          <li>Post local job needs, small one-time tasks, or community help requests — no big companies or recruiters allowed</li>
+          <li>No accounts, no tracking — only share the contact info you're comfortable providing</li>
           <li>Browse recent posts and connect directly with your neighbors</li>
-          <li>This platform is community-driven — use at your own risk, and report anything inappropriate</li>
-          <hr className="my-6 border-t border-black" />
-          <li className="text-red-600 font-semibold">Posts are automatically removed 2 weeks after posting to keep things fresh</li>
-          <li className="text-red-600 font-semibold">Comments are disabled — only those truly interested will reach out via the contact info you provide</li>
-          {/* <li className="text-red-600 font-semibold">You can post up to 2 jobs per week to reduce spam and keep it fair for everyone</li> */}
-          <li className="text-red-600 font-semibold">Only jobs in Republic, Kettle Falls, Colville, Chewelah, and surrounding areas are allowed. Others will be removed</li>
-          <li className="text-red-600 font-semibold">Reported posts will display a warning banner for all users to proceed with caution until reviewed or removed</li>
+          <li>All posts are visible for up to <strong>2 weeks</strong> before being automatically removed</li>
+          <li>Only posts from Republic, Kettle Falls, Colville, Chewelah, and surrounding areas are allowed</li>
+          <li>This platform is community-driven — use at your own risk and report anything inappropriate</li>
         </ul>
 
-        <h2 className="text-2xl font-semibold text-indigo-700 mt-8 mb-2">Sponsors & Community Support</h2>
-        <p className="text-gray-700 mb-4">
-          This site is free to use thanks to the support of local sponsors. We feature sponsor messages in a clean, non-intrusive way to help cover hosting and development costs.
-          Sponsors are always locally focused and relevant to the community.
-        </p>
+        <hr className="my-6 border-t-2 border-black" />
 
-        <h2 className="text-2xl font-semibold text-indigo-700 mt-8 mb-2">What's Coming Soon</h2>
-        <ul className="list-disc list-inside text-gray-700">
-          <li><strong>Community Events Section</strong> — Local businesses will be able to promote upcoming events, sales, or special offers through paid listings</li>
-          <li><strong>Improved spam protection</strong> — We're testing new systems to keep posts genuine and prevent abuse</li>
-          <li><strong>Optional sponsor submissions</strong> — Businesses can soon apply to be featured as a supporter of the platform</li>
-          <li><strong>Feedback & Improvement Form</strong> — You'll soon be able to suggest new features or improvements directly from the site</li>
+        <ul className="list-disc list-inside text-red-600 text-sm font-semibold space-y-2">
+        <li className="text-red-600 font-semibold">Posts are automatically removed 2 weeks after posting to keep things fresh</li>
+        <li className="text-red-600 font-semibold">Comments are disabled — only those truly interested will reach out via the contact info you provide</li>
+        <li className="text-red-600 font-semibold">Only jobs in Republic, Kettle Falls, Colville, Chewelah, and surrounding areas are allowed. Others will be removed</li>
+        <li className="text-red-600 font-semibold">Reported posts will display a warning banner for all users to proceed with caution until reviewed or removed</li>
         </ul>
+      </section>
 
-
-        <p className="text-sm italic text-gray-500 mt-6">
-          We're building this platform to stay useful, simple, and fair — with your feedback and participation. Thanks for being part of it.
+      {/* Sponsors */}
+      <section className="mb-8 bg-white p-8 rounded-lg shadow-md border">
+        <h2 className="text-2xl font-semibold text-indigo-700 mb-4">Sponsors & Community Support</h2>
+        <p className="text-gray-700">
+          Community Board is free to use thanks to local sponsor support. Sponsors are carefully selected to align with our mission: local, honest, and community-driven.
+          No popups, no intrusive ads — just clean support for keeping the site alive.
         </p>
       </section>
 
+      {/* What's Coming Soon */}
+      <section className="mb-8 bg-white p-8 rounded-lg shadow-md border">
+        <h2 className="text-2xl font-semibold text-indigo-700 mb-4">Coming Soon</h2>
+        <ul className="list-disc list-inside text-gray-700 space-y-3">
+          <li><strong>New Event Promotion Tools</strong> — Small businesses will soon promote local sales and events more easily</li>
+          <li><strong>Stronger Spam Protection</strong> — Smarter systems to keep the platform fair</li>
+          <li><strong>Become a Sponsor</strong> — New ways to feature your local business</li>
+          <li><strong>Feedback Form</strong> — Suggest improvements or new features</li>
+        </ul>
+      </section>
 
-      {/* <section className="bg-white p-6 rounded-lg shadow-md border">
-        <h2 className="text-2xl font-semibold text-indigo-700 mb-4">Recent Job Posts</h2>
-        {loading ? (
-          <p className="text-gray-500">Loading...</p>
-        ) : recentJobs.length > 0 ? (
-          <div className="flex flex-wrap gap-4 justify-start">
-            {recentJobs.map((job, index) => (
-              <JobCard key={index} {...job} />
-            ))}
-          </div>
-        ) : (
-          <p className="text-gray-500">No recent job posts found.</p>
-        )}
-        <p className="text-center text-sm text-gray-500 mt-4">
-          Visit the{" "}
-          <button
-            onClick={() => setActivePage("jobpage")}
-            className="text-indigo-600 hover:underline"
-          >
-            Browse Jobs
-          </button>{" "}
-          to see more.
-        </p>
-      </section> */}
+      {/* Closing */}
+      <p className="text-center text-sm italic text-gray-500 mt-8">
+        Thanks for keeping Community Board strong and positive. Built by the community, for the community.
+      </p>
     </div>
+
   );
 };
 
 export default HomePage;
+
+

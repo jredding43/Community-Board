@@ -14,8 +14,10 @@ const AboutPage = () => {
 
       <h2 className="text-xl font-semibold mt-6 mb-2">Why It Matters</h2>
       <p className="mb-4">
-        Many people are looking for help with small jobs — from seniors who can't shovel snow, to busy parents needing a hand with housework, to folks trying to find
-        side work to make ends meet. This site is designed to make that connection possible without the clutter or restrictions of big platforms.
+        Local events and small community gatherings are often overlooked or lost on big social platforms. 
+        Community Board was created to give everyday people, local organizations, and small businesses a simple way to promote what's happening nearby — 
+        without needing an account, without complicated systems, and without getting buried under corporate ads. 
+        It's about making sure local voices are heard and local efforts are supported.
       </p>
 
       <h2 className="text-xl font-semibold mt-6 mb-2">What You Can Expect</h2>

@@ -13,7 +13,6 @@ const Header = ({ setActivePage }: HeaderProps) => {
   const handleLogoClick = () => {
     const now = Date.now();
 
-    // Reset if it's been more than 5 seconds since the first click
     if (!firstClickTimeRef.current || now - firstClickTimeRef.current > 5000) {
       firstClickTimeRef.current = now;
       clickCountRef.current = 1;
@@ -23,8 +22,7 @@ const Header = ({ setActivePage }: HeaderProps) => {
 
     if (clickCountRef.current >= 10) {
       setShowAdmin(true);
-      console.log(" Admin tab unlocked");
-      // Optional: Reset so it doesn't keep counting
+      console.log("Admin tab unlocked");
       clickCountRef.current = 0;
       firstClickTimeRef.current = null;
     }
@@ -32,87 +30,132 @@ const Header = ({ setActivePage }: HeaderProps) => {
 
   return (
     <header className="bg-white shadow-md">
-      <div className="max-w-screen-xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div className="max-w-screen-xl mx-auto px-4 py-3 flex justify-between items-center">
+        
+        {/* Logo + Text */}
         <button
           onClick={handleLogoClick}
-          className="text-xl font-bold text-indigo-600"
+          className="flex items-center space-x-3 text-indigo-600 font-bold text-2xl"
         >
-          Community Board
+          <img
+            src="./images/logo.png"
+            alt="Community Board Logo"
+            className="h-10 w-auto"
+          />
+          <span>Community Board</span>
         </button>
 
-        {/* Hamburger Menu */}
-        <button
-          className="md:hidden text-2xl text-gray-700"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          ☰
-        </button>
-
-        {/* Nav Links */}
-        <nav
-          className={`${
-            menuOpen ? "block" : "hidden"
-          } absolute md:static top-16 left-0 w-full md:w-auto bg-white md:bg-transparent md:flex space-y-4 md:space-y-0 md:space-x-4 px-4 md:px-0 py-4 md:py-0 shadow md:shadow-none z-50`}
-        >
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex items-center space-x-8">
           <button
-            onClick={() => {
-              setActivePage("home");
-              setMenuOpen(false);
-            }}
-            className="block text-gray-700 hover:text-indigo-600"
+            onClick={() => setActivePage("home")}
+            className="text-gray-700 hover:text-indigo-600 font-medium transition"
           >
             Home
           </button>
           <button
-            onClick={() => {
-              setActivePage("createjob");
-              setMenuOpen(false);
-            }}
-            className="block text-gray-700 hover:text-indigo-600"
+            onClick={() => setActivePage("createjob")}
+            className="text-gray-700 hover:text-indigo-600 font-medium transition"
           >
             Post a Job
           </button>
           <button
-            onClick={() => {
-              setActivePage("jobpage");
-              setMenuOpen(false);
-            }}
-            className="block text-gray-700 hover:text-indigo-600"
+            onClick={() => setActivePage("jobpage")}
+            className="text-gray-700 hover:text-indigo-600 font-medium transition"
           >
             Browse Jobs
           </button>
           <button
-            onClick={() => {
-              setActivePage("events");
-              setMenuOpen(false);
-            }}
-            className="block text-gray-700 hover:text-indigo-600"
+            onClick={() => setActivePage("events")}
+            className="text-gray-700 hover:text-indigo-600 font-medium transition"
           >
             Events
           </button>
           <button
-            onClick={() => {
-              setActivePage("about");
-              setMenuOpen(false);
-            }}
-            className="block text-gray-700 hover:text-indigo-600"
+            onClick={() => setActivePage("about")}
+            className="text-gray-700 hover:text-indigo-600 font-medium transition"
           >
             About
           </button>
-
-          {/* Admin tab (hidden unless unlocked) */}
           {showAdmin && (
             <button
-              onClick={() => {
-                setActivePage("admin");
-                setMenuOpen(false);
-              }}
-              className="block text-red-700 font-semibold hover:underline"
+              onClick={() => setActivePage("admin")}
+              className="text-red-600 hover:underline font-semibold"
             >
               Admin
             </button>
           )}
         </nav>
+
+        {/* Mobile Hamburger */}
+        <button
+          className="md:hidden text-3xl text-gray-700"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          ☰
+        </button>
+
+        {/* Mobile Menu */}
+        {menuOpen && (
+          <div className="absolute top-16 left-0 w-full bg-white shadow-md flex flex-col space-y-4 py-4 px-6 z-50 md:hidden">
+            <button
+              onClick={() => {
+                setActivePage("home");
+                setMenuOpen(false);
+              }}
+              className="text-gray-700 hover:text-indigo-600 font-medium"
+            >
+              Home
+            </button>
+            <button
+              onClick={() => {
+                setActivePage("createjob");
+                setMenuOpen(false);
+              }}
+              className="text-gray-700 hover:text-indigo-600 font-medium"
+            >
+              Post a Job
+            </button>
+            <button
+              onClick={() => {
+                setActivePage("jobpage");
+                setMenuOpen(false);
+              }}
+              className="text-gray-700 hover:text-indigo-600 font-medium"
+            >
+              Browse Jobs
+            </button>
+            <button
+              onClick={() => {
+                setActivePage("events");
+                setMenuOpen(false);
+              }}
+              className="text-gray-700 hover:text-indigo-600 font-medium"
+            >
+              Events
+            </button>
+            <button
+              onClick={() => {
+                setActivePage("about");
+                setMenuOpen(false);
+              }}
+              className="text-gray-700 hover:text-indigo-600 font-medium"
+            >
+              About
+            </button>
+            {showAdmin && (
+              <button
+                onClick={() => {
+                  setActivePage("admin");
+                  setMenuOpen(false);
+                }}
+                className="text-red-600 hover:underline font-semibold"
+              >
+                Admin
+              </button>
+            )}
+          </div>
+        )}
       </div>
     </header>
   );
