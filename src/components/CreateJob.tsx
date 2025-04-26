@@ -243,7 +243,7 @@ const CreateJob = () => {
           rows={2}
           required
         />
-        <p className="text-xs text-red-500 -mt-4 mb-2 italic">Write this down — it will not be shown again.</p>
+        <p className="text-xs text-red-500 -mt-4 mb-2 italic">Write this down — it will not be shown again nor saved.</p>
 
         {/* Error & Success Messages */}
         {error && <p className="text-red-600 text-sm">{error}</p>}

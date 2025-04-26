@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-// import JobCard from "../components/JobCard";
+import FAQs from "../components/FAQS";
 
 interface Job {
   title: string;
@@ -122,8 +122,10 @@ const HomePage = ({ setActivePage }: HomePageProps) => {
       <p className="text-center text-sm italic text-gray-500 mt-8">
         Thanks for keeping Community Board strong and positive. Built by the community, for the community.
       </p>
-    </div>
 
+      <FAQs />
+
+    </div>
   );
 };
 
