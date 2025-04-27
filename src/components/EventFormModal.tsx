@@ -14,25 +14,10 @@ const EventFormModal: FC<EventFormModalProps> = ({ isOpen, onClose }) => {
 
     const formData = new FormData(e.currentTarget);
 
-    // Build a combined message body from event fields
-    const message = `
-      Event Name: ${formData.get("eventName")}
-      Date & Time: ${formData.get("eventDate")}
-      Description: ${formData.get("eventDescription")}
-      Location: ${formData.get("eventLocation")}
-      Website/Promotion: ${formData.get("imageLink") || "N/A"}
-    `;
-
-    // Create a new FormData to submit only recognized fields
-    const newFormData = new FormData();
-    newFormData.append("name", formData.get("eventName") as string);
-    newFormData.append("email", formData.get("contactEmail") as string);
-    newFormData.append("message", message);
-
     try {
       const response = await fetch("https://formspree.io/f/xeogolbj", {
         method: "POST",
-        body: newFormData,
+        body: formData,
         headers: {
           Accept: "application/json",
         },
@@ -101,7 +86,7 @@ const EventFormModal: FC<EventFormModalProps> = ({ isOpen, onClose }) => {
 
           {/* Links to Website/Promotion */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">Links to Website/Promotion (Optional)</label>
+            <label className="block text-sm font-medium text-gray-700">Links to Website/Promotion(Optional)</label>
             <input type="url" name="imageLink" className="mt-1 block w-full border rounded-md p-2" />
           </div>
 
@@ -120,6 +105,7 @@ const EventFormModal: FC<EventFormModalProps> = ({ isOpen, onClose }) => {
                 Terms & Conditions
               </span>.
             </label>
+            <TermsModal isOpen={isTermsOpen} onClose={() => setIsTermsOpen(false)} />
           </div>
 
           {/* Submit Button */}
@@ -127,8 +113,6 @@ const EventFormModal: FC<EventFormModalProps> = ({ isOpen, onClose }) => {
             Submit
           </button>
         </form>
-
-        <TermsModal isOpen={isTermsOpen} onClose={() => setIsTermsOpen(false)} />
       </div>
     </div>
   );
