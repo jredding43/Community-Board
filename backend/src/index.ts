@@ -10,6 +10,7 @@ app.use(cors({
   origin: [
     "http://localhost:5173",
     "https://jredding43.github.io",
+    "https://mycommunityboard.com",
   ],
   credentials: true
 }));
