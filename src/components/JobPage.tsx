@@ -82,6 +82,7 @@ const JobPage = () => {
         >
           <option value="">All</option>
           <option value="Republic">Republic</option>
+          <option value="Northport">North Port</option>
           <option value="Kettle Falls">Kettle Falls</option>
           <option value="Colville">Colville</option>
           <option value="Chewelah">Chewelah</option>
