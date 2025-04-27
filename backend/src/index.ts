@@ -6,21 +6,25 @@ import express, { Request, Response } from "express";
 import cors from "cors";
 
 const app = express();
+
 app.use(cors({
   origin: [
     "http://localhost:5173",
     "https://jredding43.github.io",
     "https://mycommunityboard.com",
+    "https://www.mycommunityboard.com"
   ],
   credentials: true
 }));
 
 app.use(express.json());
 
+// --- Root Route ---
 app.get("/", (_req: Request, res: Response) => {
   res.send("Local Job Board API is running!");
 });
 
+// --- GET /jobs (only jobs from the last 14 days) ---
 app.get("/jobs", async (req: Request, res: Response) => {
   const limit = parseInt(req.query.limit as string) || 10;
   const offset = parseInt(req.query.offset as string) || 0;
@@ -31,60 +35,6 @@ app.get("/jobs", async (req: Request, res: Response) => {
     let values: any[] = [];
 
     if (location) {
-      // Filtered query
-      query = `
-        SELECT * FROM jobs 
-        WHERE LOWER(location) = LOWER($1)
-        ORDER BY posted_at DESC 
-        LIMIT $2 OFFSET $3
-      `;
-      values = [location, limit, offset];
-    } else {
-      // Unfiltered query
-      query = `
-        SELECT * FROM jobs 
-        ORDER BY posted_at DESC 
-        LIMIT $1 OFFSET $2
-      `;
-      values = [limit, offset];
-    }
-
-    const result = await pool.query(query, values);
-
-    const formatDate = (dateStr: string) => {
-      const date = new Date(dateStr);
-      return date.toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      });
-    };
-
-    const jobs = result.rows.map(({ date_needed, posted_at, ...rest }) => ({
-      ...rest,
-      dateNeeded: formatDate(date_needed),
-      postedAt: formatDate(posted_at),
-    }));
-
-    res.status(200).json(jobs);
-  } catch (error: any) {
-    console.error("Error fetching jobs:", error.message || error);
-    res.status(500).json({ error: "Failed to load jobs", detail: error.message || error });
-  }
-});
-
-// --- POST /jobs with spam prevention and validation ---
-app.get("/jobs", async (req: Request, res: Response) => {
-  const limit = parseInt(req.query.limit as string) || 10;
-  const offset = parseInt(req.query.offset as string) || 0;
-  const location = (req.query.location as string)?.trim();
-
-  try {
-    let query = "";
-    let values: any[] = [];
-
-    if (location) {
-      // Filtered query
       query = `
         SELECT * FROM jobs 
         WHERE LOWER(location) = LOWER($1)
@@ -94,7 +44,6 @@ app.get("/jobs", async (req: Request, res: Response) => {
       `;
       values = [location, limit, offset];
     } else {
-      // Unfiltered query
       query = `
         SELECT * FROM jobs 
         WHERE posted_at >= NOW() - INTERVAL '14 days'
@@ -128,8 +77,6 @@ app.get("/jobs", async (req: Request, res: Response) => {
   }
 });
 
-
-
 // --- POST /jobs/delete using title + contact + passphrase ---
 app.post("/jobs/delete", async (req, res) => {
   const { title, contact, deletePassPhrase } = req.body;
@@ -139,14 +86,12 @@ app.post("/jobs/delete", async (req, res) => {
     let result;
 
     if (deletePassPhrase === master) {
-      // Master override — skip passphrase match
       result = await pool.query(
         `DELETE FROM jobs WHERE title = $1 AND contact = $2 RETURNING *`,
         [title, contact]
       );
       console.warn("⚠️ Master passphrase used to delete post:", title, contact);
     } else {
-      // Regular deletion
       result = await pool.query(
         `DELETE FROM jobs WHERE title = $1 AND contact = $2 AND delete_passphrase = $3 RETURNING *`,
         [title, contact, deletePassPhrase]
@@ -164,8 +109,6 @@ app.post("/jobs/delete", async (req, res) => {
   }
 });
 
-
-
 // --- DELETE /jobs/:id using passphrase (backup route) ---
 app.delete("/jobs/:id", async (req, res) => {
   const { id } = req.params;
@@ -181,12 +124,11 @@ app.delete("/jobs/:id", async (req, res) => {
   res.status(200).json({ message: "Job post deleted successfully" });
 });
 
-// POST /jobs/report
+// --- POST /jobs/report ---
 app.post("/jobs/report", async (req, res) => {
   const { title, contact, reason } = req.body;
 
   try {
-    // Check for duplicates FIRST
     const check = await pool.query(
       `SELECT * FROM reports WHERE job_title = $1 AND contact = $2`,
       [title, contact]
@@ -195,12 +137,10 @@ app.post("/jobs/report", async (req, res) => {
     if ((check.rowCount ?? 0) > 0) {
       return res.status(400).json({ error: "This post has already been reported." });
     }
-    
-    // Get IP if needed (even if not stored long-term)
+
     const ipRaw = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
     const ip = typeof ipRaw === "string" ? ipRaw.replace(/^.*:/, "") : ipRaw;
 
-    // Insert report
     await pool.query(
       `INSERT INTO reports (job_title, contact, reason, reporter_ip) VALUES ($1, $2, $3, $4)`,
       [title, contact, reason, ip]
@@ -214,6 +154,7 @@ app.post("/jobs/report", async (req, res) => {
   }
 });
 
+// --- GET /reports ---
 app.get("/reports", async (_req, res) => {
   try {
     const result = await pool.query(`
@@ -228,7 +169,7 @@ app.get("/reports", async (_req, res) => {
   }
 });
 
-
+// --- POST /jobs/has-been-reported ---
 app.post("/jobs/has-been-reported", async (req, res) => {
   const { title, contact } = req.body;
 
@@ -243,6 +184,7 @@ app.post("/jobs/has-been-reported", async (req, res) => {
   }
 });
 
+// --- DELETE /jobs/admin-delete ---
 app.delete("/jobs/admin-delete", async (req, res) => {
   const { title, contact } = req.body;
 
@@ -263,6 +205,7 @@ app.delete("/jobs/admin-delete", async (req, res) => {
   }
 });
 
+// --- DELETE /reports ---
 app.delete("/reports", async (req, res) => {
   const { job_title, contact } = req.body;
 
@@ -278,7 +221,7 @@ app.delete("/reports", async (req, res) => {
   }
 });
 
-// GET /jobs/search-by-passphrase
+// --- POST /jobs/search-by-passphrase ---
 app.post("/jobs/search-by-passphrase", async (req, res) => {
   const { contact, deletePassPhrase } = req.body;
 
@@ -287,7 +230,6 @@ app.post("/jobs/search-by-passphrase", async (req, res) => {
       `SELECT * FROM jobs WHERE contact = $1 AND delete_passphrase = $2 ORDER BY posted_at DESC`,
       [contact, deletePassPhrase]
     );
-
     res.status(200).json(result.rows);
   } catch (err) {
     console.error("Search error:", err);
@@ -295,7 +237,7 @@ app.post("/jobs/search-by-passphrase", async (req, res) => {
   }
 });
 
-
+// --- Server listen ---
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);
