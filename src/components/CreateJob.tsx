@@ -196,6 +196,7 @@ const CreateJob = () => {
         >
           <option value="">Select a Location</option>
           <option value="Republic">Republic</option>
+          <option value="North Port">North Port</option>
           <option value="Kettle Falls">Kettle Falls</option>
           <option value="Colville">Colville</option>
           <option value="Chewelah">Chewelah</option>
