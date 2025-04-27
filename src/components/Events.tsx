@@ -53,6 +53,12 @@ const EventsPage = () => {
           We offer affordable, one-time paid event slots for local businesses and organizations. 
           Sponsored listings appear at the top of this page and reach a hyper-local audience looking for events and services to support.
         </p>
+        <h4 className="text-small italic text-indigo-600 mb-2">
+          Sponsor Ads: $20 for 30 Days
+        </h4>
+        <p className="text-sm italic text-gray-500 mb-6">
+          Your ad will appear for 30 days, increasing visibility in the community.
+        </p>
 
         {/* Terms Notice */}
         <p className="text-xs text-gray-500">
