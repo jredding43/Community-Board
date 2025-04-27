@@ -2,7 +2,7 @@
   "name": "localjob",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://mycommunityboard.com",
+  "homepage": "https://www.mycommunityboard.com",
   "type": "module",
   "scripts": {
     "dev": "vite",
