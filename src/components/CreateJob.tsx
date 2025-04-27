@@ -1,4 +1,15 @@
 import { useState } from "react";
+import { Filter } from 'bad-words';
+
+const filter = new Filter();
+
+export function validatePost(content: string) {
+  if (filter.isProfane(content)) {
+    return false;  // Block post
+  }
+  return true;     // Safe post
+}
+
 
 const CreateJob = () => {
   const [form, setForm] = useState({
@@ -34,10 +45,9 @@ const CreateJob = () => {
   const isValidDate = (date: string) => {
     return !isNaN(Date.parse(date));
   };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+  
     if (form.website) return;
     if (!isValidContact(form.contact, form.contactType)) {
       setError(`Please enter a valid ${form.contactType}.`);
@@ -47,9 +57,17 @@ const CreateJob = () => {
       setError("Please enter a valid date.");
       return;
     }
-
+  
+    const filter = new Filter();
+  
+    //  Profanity check
+    if (filter.isProfane(form.title) || filter.isProfane(form.description)) {
+      setError("Your post contains inappropriate language and cannot be submitted.");
+      return;
+    }
+  
     const fullPay = `${form.payAmount} (${form.payType})`;
-
+  
     try {
       const res = await fetch("https://community-board-backend.onrender.com/jobs", {
         method: "POST",
@@ -66,7 +84,7 @@ const CreateJob = () => {
           deletePassPhrase: form.deletePassPhrase,
         }),
       });
-
+  
       if (res.ok) {
         setForm({
           title: "",
@@ -83,7 +101,7 @@ const CreateJob = () => {
         setSuccess("Job posted successfully!");
       } else {
         const { error } = await res.json();
-
+  
         if (res.status === 429) {
           setError("You've already posted 2 jobs with this contact. You cannot post more.");
         } else {
@@ -95,8 +113,7 @@ const CreateJob = () => {
       setError("Server error. Try again later.");
     }
   };
-      
-
+  
   const handleSearch = async () => {
     const res = await fetch("https://community-board-backend.onrender.com/jobs/search-by-passphrase", {
       method: "POST",
