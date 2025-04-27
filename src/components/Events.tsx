@@ -25,7 +25,7 @@ const EventsPage = () => {
           {/* Sponsored Event Image Card */}
           <div className="border rounded-lg overflow-hidden shadow-md bg-gray-100 flex items-center justify-center h-64">
             <img
-              src={`${process.env.PUBLIC_URL}/images/promotion.png`}
+              src="/images/promotion.png"
               alt="Sponsored Event 1"
               className="object-cover w-96 h-auto"
             />
