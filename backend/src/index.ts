@@ -8,13 +8,14 @@ import cors from "cors";
 const app = express();
 app.use(cors({
   origin: [
-    "http://localhost:5173",
-    "https://jredding43.github.io",
-    "https://mycommunityboard.com",
-    "https://www.mycommunityboard.com"
-  ],  
+    "http://localhost:5173",             
+    "https://jredding43.github.io",        
+    "https://mycommunityboard.com",         
+    "https://www.mycommunityboard.com"      
+  ],
   credentials: true
 }));
+
 
 app.use(express.json());
 
@@ -32,20 +33,18 @@ app.get("/jobs", async (req: Request, res: Response) => {
     let values: any[] = [];
 
     if (location) {
-      // Filtered query by location + only recent 14 days
+      // Filtered query
       query = `
         SELECT * FROM jobs 
         WHERE LOWER(location) = LOWER($1)
-        AND posted_at >= NOW() - INTERVAL '14 days'
         ORDER BY posted_at DESC 
         LIMIT $2 OFFSET $3
       `;
       values = [location, limit, offset];
     } else {
-      // Unfiltered query, only recent 14 days
+      // Unfiltered query
       query = `
         SELECT * FROM jobs 
-        WHERE posted_at >= NOW() - INTERVAL '14 days'
         ORDER BY posted_at DESC 
         LIMIT $1 OFFSET $2
       `;
@@ -76,7 +75,72 @@ app.get("/jobs", async (req: Request, res: Response) => {
   }
 });
 
+// --- POST /jobs with spam prevention and validation ---
+app.post("/jobs", async (req: Request, res: Response) => {
+  const {
+    title,
+    description,
+    pay,
+    location,
+    dateNeeded,
+    contact,
+    deletePassPhrase,
+    website, // honeypot field
+  } = req.body;
 
+  const ipRaw = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
+  const ip = typeof ipRaw === "string" ? ipRaw.replace(/^.*:/, "") : ipRaw;
+
+  if (website) {
+    console.warn("Bot submission blocked via honeypot");
+    return res.status(400).json({ error: "Spam detected" });
+  }
+
+  if (!title || !description || !pay || !location || !dateNeeded || !contact) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  try {
+    // Normalize contact (removes dashes, dots, spaces, upper case)
+    const normalizeContact = (value: string) => {
+      return value.trim().replace(/[^a-zA-Z0-9@]/g, "").toLowerCase();
+    };
+    
+    const normalizedContact = normalizeContact(contact);
+    
+    console.log("Raw contact submitted:", contact);
+    console.log("Normalized contact:", normalizedContact);
+
+    //  100% accurate match — no SQL replace
+    const check = await pool.query(
+      `SELECT COUNT(*) FROM jobs WHERE REGEXP_REPLACE(LOWER(contact), '[^a-z0-9@]', '', 'g') = $1`,
+      [normalizedContact]
+    );
+    
+    const count = parseInt(check.rows[0].count, 10);
+    console.log(`Contact check for: ${normalizedContact} → Found ${count} posts`);
+    
+    if (count >= 2) {
+      return res.status(429).json({ error: "You've reached the limit of 2 job posts for this contact." });
+    }
+    
+    //  Insert with normalized contact
+    const result = await pool.query(
+      `INSERT INTO jobs (title, description, pay, location, date_needed, contact, ip_address, delete_passphrase)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+       RETURNING *`,
+      [title, description, pay, location, dateNeeded, normalizedContact, ip, deletePassPhrase]
+    );
+    
+    console.log("Matching post count:", count);
+
+
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    console.error("Error inserting job:", error);
+    res.status(500).json({ error: "Failed to create job post" });
+  }
+});
 
 
 // --- POST /jobs/delete using title + contact + passphrase ---
