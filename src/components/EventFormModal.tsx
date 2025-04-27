@@ -86,13 +86,7 @@ const EventFormModal: FC<EventFormModalProps> = ({ isOpen, onClose }) => {
 
           {/* Links to Website/Promotion */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">Links to Website/Promotion</label>
-            <input type="url" name="siteLink" required className="mt-1 block w-full border rounded-md p-2" />
-          </div>
-
-          {/* Flyer or Image Link */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Flyer or Image Link (Optional)</label>
+            <label className="block text-sm font-medium text-gray-700">Links to Website/Promotion(Optional)</label>
             <input type="url" name="imageLink" className="mt-1 block w-full border rounded-md p-2" />
           </div>
 

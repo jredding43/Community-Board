@@ -109,15 +109,6 @@ const CommunityFormModal: FC<CommunityFormModalProps> = ({ isOpen, onClose }) =>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">Flyer or Image Link (Optional)</label>
-            <input
-              type="url"
-              name="imageLink"
-              className="mt-1 block w-full border rounded-md p-2"
-            />
-          </div>
-
-          <div>
             <label className="block text-sm font-medium text-gray-700">Contact Email</label>
             <input
               type="email"
