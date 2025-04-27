@@ -2,7 +2,7 @@
   "name": "localjob",
   "private": true,
   "version": "0.0.0",
-  "homepage": "https://jredding43.github.io/Community-Board",
+  "homepage": "https://mycommunityboard.com",
   "type": "module",
   "scripts": {
     "dev": "vite",
