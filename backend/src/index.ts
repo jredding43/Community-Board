@@ -227,6 +227,7 @@ app.post("/jobs/report", async (req, res) => {
   }
 });
 
+//admin panel get reports
 app.get("/reports", async (_req, res) => {
   try {
     const result = await pool.query(`
@@ -241,7 +242,7 @@ app.get("/reports", async (_req, res) => {
   }
 });
 
-
+//report jobs
 app.post("/jobs/has-been-reported", async (req, res) => {
   const { title, contact } = req.body;
 
@@ -256,6 +257,7 @@ app.post("/jobs/has-been-reported", async (req, res) => {
   }
 });
 
+//delete jobs
 app.delete("/jobs/admin-delete", async (req, res) => {
   const { title, contact } = req.body;
 
@@ -305,6 +307,113 @@ app.post("/jobs/search-by-passphrase", async (req, res) => {
   } catch (err) {
     console.error("Search error:", err);
     res.status(500).json({ error: "Failed to search for jobs." });
+  }
+});
+
+
+
+// --- POST /events to save event submissions ---
+app.post("/events", async (req: Request, res: Response) => {
+  const {
+    eventName,
+    eventDate,
+    eventDescription,
+    eventLocation,
+    eventImageUrl,
+    imageLink,
+    contactEmail
+  } = req.body;
+
+  if (!eventName || !eventDate || !eventDescription || !eventLocation || !contactEmail) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  try {
+    const result = await pool.query(
+      `INSERT INTO events (event_name, event_date, event_description, event_location, event_image_url, image_link, contact_email)
+       VALUES ($1, $2, $3, $4, $5, $6, $7)
+       RETURNING *`,
+      [eventName, eventDate, eventDescription, eventLocation, eventImageUrl, imageLink, contactEmail]
+    );
+
+    res.status(201).json({ message: "Event submitted successfully.", event: result.rows[0] });
+  } catch (error: any) {
+    console.error("Error inserting event:", error.message || error);
+    res.status(500).json({ error: "Failed to submit event." });
+  }
+});
+
+// --- GET /events to fetch all event submissions ---
+app.get("/events", async (req: Request, res: Response) => {
+  try {
+    const result = await pool.query(`
+      SELECT id, event_name, event_date, event_description, event_location, event_image_url, image_link, contact_email, approved, created_at
+      FROM events
+      ORDER BY created_at DESC
+    `);
+
+    res.status(200).json(result.rows);
+  } catch (error: any) {
+    console.error("Error fetching events:", error.message || error);
+    res.status(500).json({ error: "Failed to fetch events." });
+  }
+});
+
+// --- POST /community to save community event submissions ---
+app.post("/community", async (req: Request, res: Response) => {
+  const {
+    communityName,
+    communityDate,
+    communityDescription,
+    communityLocation,
+    siteLink,
+    contactEmail
+  } = req.body;
+
+  if (!communityName || !communityDate || !communityDescription || !communityLocation || !contactEmail) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  try {
+    const result = await pool.query(
+      `INSERT INTO community (community_name, community_date, community_description, community_location, site_link, contact_email)
+       VALUES ($1, $2, $3, $4, $5, $6)
+       RETURNING *`,
+      [communityName, communityDate, communityDescription, communityLocation, siteLink, contactEmail]
+    );
+
+    res.status(201).json({ message: "Community event submitted successfully.", event: result.rows[0] });
+  } catch (error: any) {
+    console.error("Error inserting community event:", error.message || error);
+    res.status(500).json({ error: "Failed to submit community event." });
+  }
+});
+
+// --- GET /community to fetch all community submissions ---
+app.get("/community", async (req: Request, res: Response) => {
+  try {
+    const result = await pool.query(`
+      SELECT id, community_name, community_date, community_description, community_location, site_link, contact_email, approved, created_at
+      FROM community
+      ORDER BY created_at DESC
+    `);
+
+    res.status(200).json(result.rows);
+  } catch (error: any) {
+    console.error("Error fetching community events:", error.message || error);
+    res.status(500).json({ error: "Failed to fetch community events." });
+  }
+});
+
+// PATCH /events/approve/:id
+app.patch("/events/approve/:id", async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    await pool.query(`UPDATE events SET approved = true WHERE id = $1`, [id]);
+    res.status(200).json({ message: "Event approved." });
+  } catch (error: any) {
+    console.error("Error approving event:", error.message || error);
+    res.status(500).json({ error: "Failed to approve event." });
   }
 });
 

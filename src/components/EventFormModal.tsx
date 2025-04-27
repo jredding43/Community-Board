@@ -1,5 +1,6 @@
 import { FC, useState } from "react";
 import TermsModal from "../components/TermsModal";
+import BASE_URL from "../api"
 
 interface EventFormModalProps {
   isOpen: boolean;
@@ -8,30 +9,76 @@ interface EventFormModalProps {
 
 const EventFormModal: FC<EventFormModalProps> = ({ isOpen, onClose }) => {
   const [isTermsOpen, setIsTermsOpen] = useState(false);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
+
+  const handleImageUpload = async (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', 'eventuploads'); // your Cloudinary unsigned preset
+
+    try {
+      const res = await fetch('https://api.cloudinary.com/v1_1/diaeiexys/image/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      const data = await res.json();
+      setUploadedImageUrl(data.secure_url);
+    } catch (error) {
+      console.error("Image upload failed:", error);
+      alert("Failed to upload image. Please try again.");
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
 
+    const eventName = formData.get('eventName') as string;
+    const eventDate = formData.get('eventDate') as string;
+    const eventDescription = formData.get('eventDescription') as string;
+    const eventLocation = formData.get('eventLocation') as string;
+    const imageLink = formData.get('imageLink') as string;
+    const contactEmail = formData.get('contactEmail') as string;
+    const eventImageUrl = uploadedImageUrl || '';
+
     try {
-      const response = await fetch("https://formspree.io/f/xeogolbj", {
+      const response = await fetch(`${BASE_URL}/events`, {
         method: "POST",
-        body: formData,
         headers: {
-          Accept: "application/json",
+          "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+          eventName,
+          eventDate,
+          eventDescription,
+          eventLocation,
+          eventImageUrl,
+          imageLink,
+          contactEmail,
+        }),
       });
 
       if (response.ok) {
-        alert("Form submitted successfully!");
+        alert("Event submitted successfully!");
         onClose();
       } else {
-        alert("Failed to submit the form. Please try again.");
+        alert("Failed to submit the event. Please try again.");
       }
     } catch (error) {
-      console.error("Form submission error:", error);
+      console.error("Event submission error:", error);
       alert("An error occurred. Please try again.");
+    }
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 1000000) { // Limit 1MB
+        alert("Please upload an image smaller than 1MB.");
+        return;
+      }
+      handleImageUpload(file);
     }
   };
 
@@ -84,9 +131,20 @@ const EventFormModal: FC<EventFormModalProps> = ({ isOpen, onClose }) => {
             <input type="text" name="eventLocation" required className="mt-1 block w-full border rounded-md p-2" />
           </div>
 
+          {/* Upload Event Image */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Upload Event Image (optional, 1MB max)</label>
+            <input type="file" accept="image/*" onChange={handleImageChange} className="mt-1 block w-full border rounded-md p-2" />
+            {uploadedImageUrl && (
+              <div className="mt-2">
+                <img src={uploadedImageUrl} alt="Uploaded" className="w-32 h-auto rounded-md" />
+              </div>
+            )}
+          </div>
+
           {/* Links to Website/Promotion */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">Links to Website/Promotion(Optional)</label>
+            <label className="block text-sm font-medium text-gray-700">Links to Website/Promotion (Optional)</label>
             <input type="url" name="imageLink" className="mt-1 block w-full border rounded-md p-2" />
           </div>
 

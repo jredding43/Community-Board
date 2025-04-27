@@ -1,5 +1,6 @@
 import React, { FC, useState } from "react";
 import TermsModal from "../components/TermsModal";
+import BASE_URL from "../api";
 
 interface CommunityFormModalProps {
   isOpen: boolean;
@@ -14,20 +15,34 @@ const CommunityFormModal: FC<CommunityFormModalProps> = ({ isOpen, onClose }) =>
 
     const formData = new FormData(e.currentTarget);
 
+    const communityName = formData.get('communityName') as string;
+    const communityDate = formData.get('communityDate') as string;
+    const communityDescription = formData.get('communityDescription') as string;
+    const communityLocation = formData.get('communityLocation') as string;
+    const siteLink = formData.get('siteLink') as string;
+    const contactEmail = formData.get('contactEmail') as string;
+
     try {
-      const response = await fetch("https://formspree.io/f/xeogolbj", {
+      const response = await fetch(`${BASE_URL}/community`, {
         method: "POST",
-        body: formData,
         headers: {
-          Accept: "application/json",
+          "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+          communityName,
+          communityDate,
+          communityDescription,
+          communityLocation,
+          siteLink,
+          contactEmail,
+        }),
       });
 
       if (response.ok) {
-        alert("Form submitted successfully!");
+        alert("Community event submitted successfully!");
         onClose();
       } else {
-        alert("Failed to submit the form. Please try again.");
+        alert("Failed to submit the community event. Please try again.");
       }
     } catch (error) {
       console.error("Form submission error:", error);
