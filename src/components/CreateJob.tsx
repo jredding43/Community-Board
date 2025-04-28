@@ -45,6 +45,7 @@ const CreateJob = () => {
   const isValidDate = (date: string) => {
     return !isNaN(Date.parse(date));
   };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
   
@@ -57,7 +58,24 @@ const CreateJob = () => {
       setError("Please enter a valid date.");
       return;
     }
-  
+
+    //verify if email or phone are correct
+    if (form.contactType === "email") {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(form.contact)) {
+        alert("Please enter a valid email address.");
+        return;
+      }
+    }
+
+    if (form.contactType === "phone") {
+      const phoneRegex = /^(\d{3}-?\d{3}-?\d{4})$/;
+      if (!phoneRegex.test(form.contact)) {
+        alert("Please enter a valid phone number like 509-690-1560 or 5096901560.");
+        return;
+      }
+    }
+      
     const filter = new Filter();
   
     //  Profanity check
