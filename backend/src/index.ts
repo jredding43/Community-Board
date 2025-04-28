@@ -349,15 +349,47 @@ app.get("/events", async (req: Request, res: Response) => {
     const result = await pool.query(`
       SELECT id, event_name, event_date, event_description, event_location, event_image_url, image_link, contact_email, approved, created_at
       FROM events
+      WHERE approved = true
       ORDER BY created_at DESC
     `);
-
     res.status(200).json(result.rows);
   } catch (error: any) {
     console.error("Error fetching events:", error.message || error);
     res.status(500).json({ error: "Failed to fetch events." });
   }
 });
+
+
+// --- GET /events/all for Admin Panel (shows ALL events)
+app.get("/events/all", async (req: Request, res: Response) => {
+  try {
+    const result = await pool.query(`
+      SELECT id, event_name, event_date, event_description, event_location, event_image_url, image_link, contact_email, approved, created_at
+      FROM events
+      ORDER BY created_at DESC
+    `);
+
+    res.status(200).json(result.rows);
+  } catch (error: any) {
+    console.error("Error fetching all events:", error.message || error);
+    res.status(500).json({ error: "Failed to fetch all events." });
+  }
+});
+
+// --- DELETE an Event by ID ---
+app.delete("/events/:id", async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    await pool.query(`DELETE FROM events WHERE id = $1`, [id]);
+    res.status(200).json({ message: "Event deleted successfully." });
+  } catch (error: any) {
+    console.error("Error deleting event:", error.message || error);
+    res.status(500).json({ error: "Failed to delete event." });
+  }
+});
+
+
 
 // --- POST /community to save community event submissions ---
 app.post("/community", async (req: Request, res: Response) => {
@@ -395,6 +427,7 @@ app.get("/community", async (req: Request, res: Response) => {
     const result = await pool.query(`
       SELECT id, community_name, community_date, community_description, community_location, site_link, contact_email, approved, created_at
       FROM community
+      WHERE approved = TRUE
       ORDER BY created_at DESC
     `);
 
@@ -404,6 +437,31 @@ app.get("/community", async (req: Request, res: Response) => {
     res.status(500).json({ error: "Failed to fetch community events." });
   }
 });
+
+
+// --- GET /community/all for Admin Panel (shows ALL community posts)
+app.get("/community/all", async (req: Request, res: Response) => {
+  try {
+    const result = await pool.query(`
+      SELECT 
+        id,
+        community_name AS title,
+        community_description AS description,
+        contact_email,
+        approved,
+        created_at
+      FROM community
+      ORDER BY created_at DESC
+    `);
+
+    res.status(200).json(result.rows);
+  } catch (error: any) {
+    console.error("Error fetching all community posts:", error.message || error);
+    res.status(500).json({ error: "Failed to fetch all community posts." });
+  }
+});
+
+
 
 // PATCH /events/approve/:id
 app.patch("/events/approve/:id", async (req: Request, res: Response) => {
@@ -416,6 +474,41 @@ app.patch("/events/approve/:id", async (req: Request, res: Response) => {
     res.status(500).json({ error: "Failed to approve event." });
   }
 });
+
+// Approve a community post
+app.patch("/community/approve/:id", async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    await pool.query(`
+      UPDATE community
+      SET approved = TRUE
+      WHERE id = $1
+    `, [id]);
+
+    res.status(200).json({ message: "Community post approved successfully." });
+  } catch (error: any) {
+    console.error("Error approving community post:", error.message || error);
+    res.status(500).json({ error: "Failed to approve community post." });
+  }
+});
+
+// Deny (delete) a community post
+app.delete("/community/:id", async (req: Request, res: Response) => {
+  const { id } = req.params;
+  try {
+    await pool.query(`
+      DELETE FROM community
+      WHERE id = $1
+    `, [id]);
+
+    res.status(200).json({ message: "Community post denied and deleted successfully." });
+  } catch (error: any) {
+    console.error("Error denying community post:", error.message || error);
+    res.status(500).json({ error: "Failed to deny community post." });
+  }
+});
+
+
 
 
 const PORT = process.env.PORT || 3001;
