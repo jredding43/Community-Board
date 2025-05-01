@@ -100,77 +100,101 @@ const JobCard = ({
   };
 
   return (
-    <div className="w-full bg-white shadow rounded-lg p-4 mb-4 border relative">
+    <div className="w-full max-w-3xl bg-indigo-200 shadow-sm rounded-xl p-6 mb-6 border border-indigo-100 relative">
 
-      {pinned && (
-        <div className="absolute top-2 right-2 bg-yellow-100 text-yellow-800 text-xs font-semibold px-2 py-1 rounded">
-           Admin Post
-        </div>
-      )}
-
-      {hasReported && (
-        <div className="mb-3 px-3 py-2 bg-yellow-100 border-l-4 border-yellow-600 text-yellow-800 text-sm font-medium rounded">
-          ⚠️ This post has been reported. Use caution until reviewed.
-        </div>
-      )}
-
-      <div className="flex justify-between items-center mb-2">
-        <h2 className="text-xl font-semibold text-indigo-700">{title}</h2>
-      </div>
-      <p className="text-gray-700 mb-2">{description}</p>
-      <div className="text-sm text-gray-600 mb-2">
-        <p><strong>Pay:</strong> {pay.startsWith("$") || isNaN(Number(pay)) ? pay : `$${pay}`}</p>
-        <p><strong>Location:</strong> {location}</p>
-        <p><strong>Date Needed:</strong> {dateNeeded}</p>
-        <p><strong>Contact:</strong> {contact}</p>
-      </div>
-
-      <div className="flex flex-col items-end gap-2">
-        <div className="flex gap-4">
-
-        {!pinned && (
-            hasReported ? (
-              <span className="text-xs text-gray-400 italic select-none cursor-not-allowed">
-                🕓 Report Pending
-              </span>
-            ) : (
-              <button
-                onClick={handleReport}
-                className="text-xs text-red-600 hover:underline hover:text-red-800"
-              >
-                🚩 Report Post
-              </button>
-            )
-          )}
-
-          <button
-            onClick={handleRemove}
-            className="text-xs text-gray-500 hover:underline hover:text-gray-700"
-          >
-            ❌ Remove Post
-          </button>
-        </div>
-
-        {/* Report Options Dropdown */}
-        {showReportOptions && (
-          <div className="absolute bg-white border shadow-md rounded mt-1 z-50 p-2 text-sm right-4 top-full">
-            <p className="font-semibold text-gray-700 mb-2">Report Reason:</p>
-            <ul className="space-y-1">
-              {["Spam", "Scam or Fraud", "Inappropriate", "Incorrect Info"].map((reason) => (
-                <li key={reason}>
-                  <button
-                    onClick={() => submitReport(reason)}
-                    className="text-red-600 hover:underline hover:text-red-800"
-                  >
-                    {reason}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
+  {pinned && (
+    <div className="absolute top-3 right-3 bg-yellow-100 text-yellow-800 text-xs font-semibold px-2 py-1 rounded">
+      Admin Post
     </div>
+  )}
+
+  {hasReported && (
+    <div className="mb-4 px-4 py-3 bg-yellow-50 border border-yellow-400 text-yellow-800 text-sm font-medium rounded">
+      ⚠️ This post has been reported. Use caution until reviewed.
+    </div>
+  )}
+
+  {/* Title */}
+  <div className="mb-4">
+    <h2 className="text-2xl font-bold text-indigo-800">{title}</h2>
+  </div>
+
+  {/* Description */}
+  <div className="bg-indigo-50 border border-indigo-200 rounded-lg p-1.5 mb-6">
+    <p className="text-gray-800 text-sm whitespace-pre-line italic">{description}</p>
+  </div>
+
+  {/* Details Grid */}
+  <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 mb-6">
+    <div className="bg-white border border-indigo-200 rounded-lg p-1.5 shadow-sm">
+      <p className="text-xs text-indigo-500 uppercase font-semibold mb-1">Pay</p>
+      <p className="text-sm font-medium text-gray-800">
+        {pay.startsWith("$") || isNaN(Number(pay)) ? pay : `$${pay}`}
+      </p>
+    </div>
+
+    <div className="bg-white border border-indigo-200 rounded-lg p-1.5 shadow-sm">
+      <p className="text-xs text-indigo-500 uppercase font-semibold mb-1">Location</p>
+      <p className="text-sm font-medium text-gray-800">{location}</p>
+    </div>
+
+    <div className="bg-white border border-indigo-200 rounded-lg p-1.5 shadow-sm">
+      <p className="text-xs text-indigo-500 uppercase font-semibold mb-1">Date Needed</p>
+      <p className="text-sm font-medium text-gray-800">{dateNeeded}</p>
+    </div>
+
+    <div className="bg-white border border-indigo-200 rounded-lg p-1.5 shadow-sm">
+      <p className="text-xs text-indigo-500 uppercase font-semibold mb-1">Contact</p>
+      <p className="text-sm font-medium text-gray-800">{contact}</p>
+    </div>
+  </div>
+
+  {/* Actions */}
+  <div className="flex justify-end gap-1.5">
+    {!pinned && (
+      hasReported ? (
+        <span className="text-xs text-gray-500 italic select-none cursor-not-allowed">
+          🕓 Report Pending
+        </span>
+      ) : (
+        <button
+          onClick={handleReport}
+          className="text-xs text-red-600 hover:underline hover:text-red-800"
+        >
+          🚩 Report Post
+        </button>
+      )
+    )}
+
+    <button
+      onClick={handleRemove}
+      className="text-xs text-gray-500 hover:underline hover:text-gray-700"
+    >
+      ❌ Remove Post
+    </button>
+  </div>
+
+  {/* Report Dropdown */}
+  {showReportOptions && (
+    <div className="absolute bg-white border shadow-lg rounded mt-2 z-50 p-3 text-sm right-4 top-full w-56">
+      <p className="font-semibold text-gray-700 mb-2">Report Reason:</p>
+      <ul className="space-y-1">
+        {["Spam", "Scam or Fraud", "Inappropriate", "Incorrect Info"].map((reason) => (
+          <li key={reason}>
+            <button
+              onClick={() => submitReport(reason)}
+              className="text-red-600 hover:underline hover:text-red-800"
+            >
+              {reason}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  )}
+</div>
+
+
   );
 };
 
