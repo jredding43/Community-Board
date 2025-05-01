@@ -109,15 +109,39 @@ const HomePage = ({ setActivePage }: HomePageProps) => {
       </section>
 
       {/* What's Coming Soon */}
-      <section className="mb-8 bg-indigo-50 p-8 rounded-lg shadow-md border">
-        <h2 className="text-2xl font-semibold text-indigo-700 mb-4">Coming Soon</h2>
-        <ul className="list-disc list-inside text-gray-700 space-y-3">
-          <li><strong>New Event Promotion Tools</strong> — Small businesses will soon promote local sales and events more easily</li>
-          <li><strong>Stronger Spam Protection</strong> — Smarter systems to keep the platform fair</li>
-          <li><strong>Become a Sponsor</strong> — New ways to feature your local business</li>
-          <li><strong>Feedback Form</strong> — Suggest improvements or new features</li>
-        </ul>
-      </section>
+      <section className="mb-12 bg-gradient-to-br from-indigo-50 to-white p-8 rounded-xl shadow-md border border-indigo-100">
+      <h2 className="text-2xl font-bold text-indigo-700 mb-5"> What's Coming Soon</h2>
+      <ul className="space-y-4 text-gray-700 text-sm leading-relaxed">
+        <li className="flex items-start gap-2">
+          <span className="text-indigo-500 mt-1"></span>
+          <span>
+            <strong>Local Event Highlights</strong> — Small businesses and community groups will soon be able to promote sales, fundraisers, and happenings with greater visibility.
+          </span>
+        </li>
+        <li className="flex items-start gap-2">
+          <span className="text-indigo-500 mt-1"></span>
+          <span>
+            <strong>Smarter Spam Filters</strong> — We're rolling out improved tools to keep bots and bad actors out, so you can trust what you see.
+          </span>
+        </li>
+        <li className="flex items-start gap-2">
+          <span className="text-indigo-500 mt-1"></span>
+          <span>
+            <strong>Business Sponsorships</strong> — Feature your business on top of job and event pages to reach more local customers.
+          </span>
+        </li>
+        <li className="flex items-start gap-2">
+          <span className="text-indigo-500 mt-1"></span>
+          <span>
+            <strong>Community Feedback</strong> — You'll soon be able to suggest features, improvements, or flag issues with a simple form.
+          </span>
+        </li>
+      </ul>
+
+      <p className="mt-6 text-sm text-gray-600 text-center italic">
+        Have an idea or request? We're building this for the community — <span className="text-indigo-600 font-medium">your input matters</span>.
+      </p>
+    </section>
 
       {/* Closing */}
       <p className="text-center text-sm italic text-gray-500 mt-8">
